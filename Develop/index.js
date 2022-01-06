@@ -2,11 +2,11 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
 const util = require("util");
-const api = require('./utils/api.js');
-const generateMarkdown = require('./utils/generateMarkdown.js');
+const generateMarkdown = require("./Develop/utils\generateMarkdown.js");
 
 // TODO: Create an array of questions for user input
-const questions = [{
+const questions = [
+    {
     type: "input",
     message: "What is your GitHub username?",
     name: "username",
@@ -62,9 +62,22 @@ function writeToFile(fileName, data) {
         console.log("Success! You have just generated your README.md file!")
     })
 }
-
+const writeFile = util.promisify(writeToFile)
 // TODO: Create a function to initialize app
-function init() {}
+function init() {
+    try {
+       const userResponses = await inquirer.prompt(questions);
+       console.log("Your responses:", userResponses);
+       console.log("Thank you for your responses! Fetching your GitHub data.....") 
+
+       console.log("Generating your README...")
+       const markdown = generateMarkdown(userResponses, userInfo);
+       console.log(markdown);
+       await writeFile("ExampleREADME.md", markdown);
+    } catch(error) {
+        console.log(error)
+    }
+};
 
 // Function call to initialize app
 init();
