@@ -47,11 +47,11 @@ function renderLicenseSection(license) {
 function generateMarkdown(data) {
   return `# ${data.title}
 ${renderLicenseBadge(data.license)}
-* [Installation](#installation)
-* [Usage](#usage)
-* [Contributing](#contributing)
-* [Tests](#tests)
-* [Questions](#questions)
+${userResponses(data.installation)}
+${userResponses(data.usage)}
+${userResponses(data.contributing)}
+${userResponses(data.tests)}
+${userResponses(data.questions)}
 ${renderLicenseLink(data.license)}
 ## Installation
 ## Usage
