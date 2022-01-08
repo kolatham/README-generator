@@ -2,7 +2,7 @@
 const inquirer = require("inquirer");
 const fs = require("fs");
 const util = require("util");
-const generateMarkdown = require("./Develop/utils\generateMarkdown.js");
+const generateMarkdown = require("./utils/generateMarkdown");
 
 // TODO: Create an array of questions for user input
 const questions = [
@@ -21,12 +21,12 @@ const questions = [
 
 {
 type: "input",
-message:"What is the name of your GitHub Repo?",
-name: "repo",
-default: "GitHub-repo",
+message:"What is your email?",
+name: "email",
+default: "kolatham96@gmail.com",
 validate: function (answer) {
     if (answer.length < 1) {
-        return console.log ("Please enter a valid GitHub repo in order to receive a badge.")
+        return console.log ("Please enter a valid email in order to receive a badge.")
     }
     return true;
     }
@@ -36,20 +36,23 @@ validate: function (answer) {
     type: "input",
     message: "What is the title of your new project?",
     name: "title",
-    default: "Project Title",
+    default: "Project-Title",
     validate: function (answer){
+        console.log(answer)
+        console.log(answer.length)
         if (answer.length < 1) {
             return console.log("Please enter a valid project title in order to receive a badge.")
         }
+        return true;
     }
 },
 
 {
     type: "list",
+    name:"license",
     message:"Choose a license for your project",
-    choices: ["GNU AGPLv3', 'GNU GPLv3', 'GNU LGPLv3', 'Mozilla Public License 2.0', 'Apache License 2.0', 'MIT License', 'Boost Software License 1.0', 'The Unlicense"],
-    name:"license"
-}
+    choices: ['GNU AGPLv3', 'GNU GPLv3', 'GNU LGPLv3', 'Mozilla Public License 2.0', 'Apache License 2.0', 'MIT License', 'Boost Software License 1.0', 'The Unlicense', 'none']
+},
 
 ];
 
@@ -64,14 +67,14 @@ function writeToFile(fileName, data) {
 }
 const writeFile = util.promisify(writeToFile)
 // TODO: Create a function to initialize app
-function init() {
+async function init() {
     try {
        const userResponses = await inquirer.prompt(questions);
        console.log("Your responses:", userResponses);
        console.log("Thank you for your responses! Fetching your GitHub data.....") 
 
        console.log("Generating your README...")
-       const markdown = generateMarkdown(userResponses, userInfo);
+       const markdown = generateMarkdown(userResponses);
        console.log(markdown);
        await writeFile("ExampleREADME.md", markdown);
     } catch(error) {
