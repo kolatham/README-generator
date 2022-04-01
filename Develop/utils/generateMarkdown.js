@@ -17,7 +17,8 @@ case"Apache License 2.0":
   return `[![License](https://img.shields.io/badge/License-Apache_2.0-blue.svg)](https://opensource.org/licenses/Apache-2.0)`;
 case "Boost Software License 1.0":
   return `[![License](https://img.shields.io/badge/License-Boost_1.0-lightblue.svg)](https://www.boost.org/LICENSE_1_0.txt)`;
-
+case "none":
+  return ` `
   }
 }
 
@@ -44,24 +45,35 @@ function renderLicenseSection(license) {
 }
 
 // TODO: Create a function to generate markdown for README
-function generateMarkdown(data) {
+function generateMarkdown (data) {
   return `# ${data.title}
 ${renderLicenseBadge(data.license)}
-${userResponses(data.installation)}
-${userResponses(data.usage)}
-${userResponses(data.contributing)}
-${userResponses(data.tests)}
-${userResponses(data.questions)}
+
+## Description
+${data.description}
+
+## Table of Contents
+
+* [Installation](#installation)
+* [Usage](#usage)
+* [Contributing](#contributing)
+* [Testing](#testing)
+* [Questions](#questions)
 ${renderLicenseLink(data.license)}
 ## Installation
+${data.installation}
 ## Usage
+${data.usage}
 ## Contributing
+${data.contributing}
 ## Tests
+${data.test}
 ## Questions
-Please reach out to me at ${data.email} if you have any questions. [${data.username}](https://github.com/${data.username})
-${renderLicenseSection(data.license)}
 
-`
+Please reach out to me at ${data.email} if you have any questions. [${data.username}](https://github.com/${data.username})
+${renderLicenseSection(data.license)}`
+
+
 }
 
 module.exports = generateMarkdown;
